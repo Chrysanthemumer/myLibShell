@@ -1,0 +1,5 @@
+(1)
+	create models file by clearing mess from models(copy)
+	sed -i -e 's| = [0-9]*||g' models
+(2)
+  
