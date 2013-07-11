@@ -1,7 +1,0 @@
-#!/bin/bash
-        while read -r file
-        do
-                #[ -f "$file" ] && rm -f "$file"
-                echo $file
-
-        done < "models"

@@ -1,3 +1,0 @@
-#!/bin/bash
-
-find . -type f -name '*.c' -print0 | xargs -0 @bash tryxargs
