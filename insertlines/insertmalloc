@@ -1,0 +1,27 @@
+#!/bin/bash
+
+FILENAME=readexc.c
+NAMEfile=namefile
+
+# The fuction takes one name $1 and one line number$2 filename$3 modelname$4
+writecontent() {
+  echo "Writting $1 malloc ..."
+  sed -i -e "$2 i \
+\ \ \ \ ierr = PetscMalloc(num_$4*sizeof(PetscInt),&(exc_model->$4->$1_idx));CHKERRQ(ierr);" $3
+
+}
+
+# The function loops thru all name and linenumber(from start line$1)
+loopsthru() {
+  linenumber=$1
+  while IFS= read -r name
+	do
+  writecontent $name $linenumber $FILENAME $2
+  linenumber=$((linenumber+1))
+  done < $NAMEfile
+
+}
+
+loopsthru $1 $2
+# BY NOW, I can add several line at a given line$1 with given modelname $2 in a given filename
+# example in line 2417

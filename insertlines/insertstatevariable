@@ -1,0 +1,17 @@
+#!/bin/bash
+
+doitinsertfunction() {
+  sed -i -e "$2 i \
+\ \ \ \ case $3: /* $1 */\\
+\ \ \ \ \ \ ierr = Indexing_$1 (pEXC->$1, idx, start);CHKERRQ(ierr);\\
+\ \ \ \ \ \ *start+=1;\\
+\ \ \ \ \ \ *EFD_address = pEXC->$1->EFD_idx[idx];\\
+\ \ \ \ \ \ break;\\
+" Indexing_StateVar.c
+
+}
+
+
+doitinsertfunction $1 $2 $3
+#modelname$1 linenumber$2 case$3
+

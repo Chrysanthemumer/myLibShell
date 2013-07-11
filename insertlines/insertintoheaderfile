@@ -1,0 +1,27 @@
+#!/bin/bash
+
+FILENAME=exc.h
+NAMEfile=namefile
+#WHITESPACE="  PetscInt" #The only way to make whitespace work in double quote is by line 9 and 10
+# The fuction takes one name $1 and one line number$2 filename$3
+writecontent() {
+  echo "Writting $1_idx ..."
+  sed -i -e "$2 i \
+\ \ PetscInt *$1_idx;" $3
+  #sed -i -e "$2 i $WHITESPACE *$1_idx;" $3
+}
+
+# The function loops thru all name and linenumber(from start line$1)
+loopsthru() {
+  linenumber=$1
+  while IFS= read -r name
+	do
+  writecontent $name $linenumber $FILENAME
+  linenumber=$((linenumber+1))
+  done < $NAMEfile
+
+}
+
+# Cleanup
+loopsthru $1
+# BY NOW, I can add several line at a given line in a given filename

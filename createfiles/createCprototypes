@@ -2,11 +2,13 @@
 
 writeprototypes() {
   echo "Writting function Indexing_$1() ..."
-  sed -i -e "37 i PetscErrorCode Indexing_$1 ($1_MODEL *item, PetscInt index, PetscInt *start);" Indexing_StateVar.h
+  sed -i -e "$2 i PetscErrorCode Indexing_$1 ($1_MODEL *item, PetscInt index, PetscInt *start);" Indexing_StateVar.h
 
 }
 
-while IFS= read -r file
+linenumber=37
+while IFS= read -r file2
 	do
-  writeprototypes $file
+  writeprototypes $file2 $linenumber
+  linenumber=$((linenumber+1))
 done < "models"

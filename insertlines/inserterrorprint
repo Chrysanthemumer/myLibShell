@@ -1,0 +1,39 @@
+#!/bin/bash
+
+
+# The following functions take linenumber$1 Modelname$2 filename$3 firstvariable$4 secondvariable$5
+# escape all double quote to make it work
+
+twoclause() {
+  sed -i -e "$1 i \
+\ \ \ \ \ \ if($2_head->$4 == 0 && $2_head->$5 != 0){\\
+\ \ \ \ \ \ \ \ ierr = PetscPrintf(PETSC_COMM_SELF,\"Input Data Error Message : The $2 model at bus [%d] with ID of [%s] has parameter $4=0 but $5!=0\\\\n\",$2_head->bus, $2_head->gen_id); CHKERRQ(ierr);\\
+\ \ \ \ \ \ }" $3
+
+}
+ 
+ 
+oneclause() {
+  sed -i -e "$1 i \
+\ \ \ \ \ \ if($2_head->$4 <= 0 ){\\
+\ \ \ \ \ \ \ \ ierr = PetscPrintf(PETSC_COMM_SELF,\"Input Data Error Message : The $2 model at bus [%d] with ID of [%s] has parameter $4 <= 0 (should be $4 > 0)\\\\n\",$2_head->bus, $2_head->gen_id); CHKERRQ(ierr);\\
+\ \ \ \ \ \ }" $3
+}
+
+main() {
+  if [ $1 -eq 1 ]
+  then
+    echo "one variable"
+    oneclause $2 $3 $6 $4
+  else
+    echo "two variable"
+    oneclause $2 $3 $6 $4 $5
+  fi
+}
+
+main $1 $2 $3 $4 $5 $6
+#mode$1 linenumber$2 modelname$3 firstV$4 secondV$5 filename $6
+
+
+
+
